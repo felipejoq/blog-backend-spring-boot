@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Type;
 
+import java.util.Date;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -24,4 +26,15 @@ public class Post {
 
     @Column(name = "content", nullable = false, columnDefinition = "text")
     private String content;
+
+    @Column(name = "create_at", nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date createAt;
+
+    @PrePersist
+    private void prePersist() {
+        this.createAt = new Date();
+    }
+
+
 }

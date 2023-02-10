@@ -1,6 +1,7 @@
 package com.uncodigo.blogspringapi.service.impl;
 
 import com.uncodigo.blogspringapi.entity.Post;
+import com.uncodigo.blogspringapi.exception.ResourceNotFoundException;
 import com.uncodigo.blogspringapi.payload.PostDto;
 import com.uncodigo.blogspringapi.repository.PostRepository;
 import com.uncodigo.blogspringapi.service.PostService;
@@ -37,6 +38,33 @@ public class PostServiceImpl implements PostService {
     public List<PostDto> getAllPosts() {
         List<Post> posts = postRepository.findAll();
         return posts.stream().map(this::mapToDto).collect(Collectors.toList());
+    }
+
+    @Override
+    public PostDto getPostById(Long id) {
+        Post post = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post", "Id", id.toString()));
+        return mapToDto(post);
+    }
+
+    @Override
+    public PostDto updatePostById(PostDto postDto, Long id) {
+        // get post by id from the database
+        Post post = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post", "Id", id.toString()));
+
+        post.setTitle(postDto.getTitle());
+        post.setDescription(postDto.getDescription());
+        post.setContent(postDto.getContent());
+
+        Post updatepost = postRepository.save(post);
+
+        return mapToDto(updatepost);
+    }
+
+    @Override
+    public PostDto deletePostById(Long id) {
+        Post post = postRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post", "Id", id.toString()));
+        postRepository.delete(post);
+        return mapToDto(post);
     }
 
     // convert Entity into Dto
