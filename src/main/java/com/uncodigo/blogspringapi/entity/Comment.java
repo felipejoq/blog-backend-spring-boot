@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
 
@@ -25,6 +26,12 @@ public class Comment {
     @Column(name = "create_at", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date createAt;
+
+    @UpdateTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "updated_at")
+    private Date updateAt;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "post_id", nullable = false)
     private Post post;
@@ -33,4 +40,5 @@ public class Comment {
     private void prePersist(){
         this.createAt = new Date();
     }
+
 }

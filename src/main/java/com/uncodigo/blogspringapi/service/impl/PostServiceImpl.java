@@ -99,6 +99,8 @@ public class PostServiceImpl implements PostService {
         postDto.setTitle(post.getTitle());
         postDto.setDescription(post.getDescription());
         postDto.setContent(post.getContent());
+        postDto.setCreateAt(post.getCreateAt());
+        postDto.setUpdateAt(post.getUpdateAt());
         return postDto;
     }
 
@@ -108,6 +110,8 @@ public class PostServiceImpl implements PostService {
         post.setTitle(postDto.getTitle());
         post.setDescription(postDto.getDescription());
         post.setContent(postDto.getContent());
+        post.setCreateAt(postDto.getCreateAt());
+        post.setUpdateAt(postDto.getUpdateAt());
         return post;
     }
 }
