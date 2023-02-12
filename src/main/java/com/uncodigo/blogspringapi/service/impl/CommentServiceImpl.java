@@ -8,6 +8,7 @@ import com.uncodigo.blogspringapi.payload.CommentDto;
 import com.uncodigo.blogspringapi.repository.CommentRepository;
 import com.uncodigo.blogspringapi.repository.PostRepository;
 import com.uncodigo.blogspringapi.service.CommentService;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
@@ -21,10 +22,14 @@ public class CommentServiceImpl implements CommentService {
     private CommentRepository commentRepository;
     private PostRepository postRepository;
 
+    private ModelMapper mapper;
+
     public CommentServiceImpl(CommentRepository commentRepository,
-                              PostRepository postRepository) {
+                              PostRepository postRepository,
+                              ModelMapper mapper) {
         this.commentRepository = commentRepository;
         this.postRepository = postRepository;
+        this.mapper = mapper;
     }
 
     @Override
@@ -102,26 +107,10 @@ public class CommentServiceImpl implements CommentService {
     }
 
     private CommentDto mapToDto(Comment comment) {
-        CommentDto commentDto = new CommentDto();
-        commentDto.setId(comment.getId());
-        commentDto.setAuthor(comment.getAuthor());
-        commentDto.setEmail(comment.getEmail());
-        commentDto.setBody(comment.getBody());
-        commentDto.setCreateAt(comment.getCreateAt());
-        commentDto.setUpdateAt(comment.getUpdateAt());
-
-        return commentDto;
+        return mapper.map(comment, CommentDto.class);
     }
 
     private Comment mapToEntity(CommentDto commentDto) {
-        Comment comment = new Comment();
-        comment.setId(commentDto.getId());
-        comment.setAuthor(commentDto.getAuthor());
-        comment.setEmail(commentDto.getEmail());
-        comment.setBody(commentDto.getBody());
-        comment.setCreateAt(commentDto.getCreateAt());
-        comment.setUpdateAt(commentDto.getUpdateAt());
-
-        return comment;
+        return mapper.map(commentDto, Comment.class);
     }
 }

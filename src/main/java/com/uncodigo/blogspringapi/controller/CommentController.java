@@ -50,7 +50,7 @@ public class CommentController {
     @DeleteMapping("/posts/{postId}/comments/{commentId}")
     public ResponseEntity<?> deleteComment(@PathVariable(value = "postId") Long postId,
                                            @PathVariable(value = "commentId") Long commentId) {
-        
+
         Map<String, Object> response = new HashMap<>();
         response.put("comment", commentService.deleteComment(postId, commentId));
         response.put("message", "comment delete successfully");
