@@ -39,8 +39,12 @@ public class Post {
 
     @PrePersist
     private void prePersist() {
-        this.slug = GenSlug.toSlug(this.title);
         this.createAt = new Date();
+    }
+
+    @PreUpdate
+    private void preUpdate() {
+        this.slug = GenSlug.toSlug(this.title);
     }
 
 

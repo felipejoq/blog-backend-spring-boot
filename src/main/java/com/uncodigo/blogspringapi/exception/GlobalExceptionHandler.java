@@ -3,7 +3,6 @@ package com.uncodigo.blogspringapi.exception;
 import com.uncodigo.blogspringapi.payload.ErrorDetails;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.FieldError;
@@ -11,12 +10,11 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import java.util.*;
 
 @ControllerAdvice
-public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
+public class GlobalExceptionHandler {
     // Handler specific exceptions
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<ErrorDetails> handlerResourceNotFoundException(ResourceNotFoundException exception,
@@ -25,6 +23,9 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 new Date(),
                 exception.getMessage(),
                 webRequest.getDescription(false));
+
+        errorDetails.setErrors(Collections.singletonList(exception.getMessage()));
+
 
         return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
     }
@@ -37,6 +38,8 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                 exception.getMessage(),
                 webRequest.getDescription(false));
 
+        errorDetails.setErrors(Collections.singletonList(exception.getMessage()));
+
         return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
     }
 
@@ -46,25 +49,29 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                                                                WebRequest webRequest) {
         ErrorDetails errorDetails = new ErrorDetails(
                 new Date(),
-                exception.getMessage(),
+                "Ups! something went wrong.",
                 webRequest.getDescription(false));
+
+        errorDetails.setErrors(Collections.singletonList(exception.getMessage()));
 
         return new ResponseEntity<>(errorDetails, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
-    @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
-                                                                  HttpHeaders headers,
-                                                                  HttpStatusCode status,
-                                                                  WebRequest request) {
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<Object> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception,
+                                                                        WebRequest webRequest) {
+        ErrorDetails errorDetails = new ErrorDetails(
+                new Date(),
+                "Validations Errors",
+                webRequest.getDescription(false));
+
         List<String> errors = new ArrayList<>();
-        ex.getBindingResult().getAllErrors().forEach((error) -> {
+        exception.getBindingResult().getAllErrors().forEach((error) -> {
             errors.add(StringUtils.capitalize(((FieldError) error).getField()) + ": " + error.getDefaultMessage());
         });
 
-        Map<String, Object> response = new HashMap<>();
-        response.put("errors", errors);
+        errorDetails.setErrors(errors);
 
-        return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
     }
 }

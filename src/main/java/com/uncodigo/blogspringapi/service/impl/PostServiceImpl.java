@@ -81,7 +81,6 @@ public class PostServiceImpl implements PostService {
         post.setTitle(postDto.getTitle());
         post.setDescription(postDto.getDescription());
         post.setContent(postDto.getContent());
-        post.setSlug(GenSlug.toSlug(postDto.getTitle()));
 
         Post updatepost = postRepository.save(post);
 
