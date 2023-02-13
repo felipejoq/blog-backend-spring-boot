@@ -6,6 +6,7 @@ import com.uncodigo.blogspringapi.payload.PostDto;
 import com.uncodigo.blogspringapi.payload.PostResponse;
 import com.uncodigo.blogspringapi.repository.PostRepository;
 import com.uncodigo.blogspringapi.service.PostService;
+import com.uncodigo.blogspringapi.utils.GenSlug;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -30,7 +31,6 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostDto createPost(PostDto postDto) {
-
         // Convert Dto to Entity
         Post post = mapToEntity(postDto);
 
@@ -38,9 +38,7 @@ public class PostServiceImpl implements PostService {
         Post newPost = postRepository.save(post);
 
         // Convert Entity to Dto.
-        PostDto postResponse = mapToDto(newPost);
-
-        return postResponse;
+        return mapToDto(newPost);
     }
 
     @Override
@@ -83,6 +81,7 @@ public class PostServiceImpl implements PostService {
         post.setTitle(postDto.getTitle());
         post.setDescription(postDto.getDescription());
         post.setContent(postDto.getContent());
+        post.setSlug(GenSlug.toSlug(postDto.getTitle()));
 
         Post updatepost = postRepository.save(post);
 
@@ -96,13 +95,14 @@ public class PostServiceImpl implements PostService {
         return mapToDto(post);
     }
 
-    // convert Entity into Dto
+    // convert Entity into Dto with ModelMapper library
     private PostDto mapToDto(Post post) {
         return mapper.map(post, PostDto.class);
     }
 
-    // convert Dto into Entity
+    // convert Dto into Entity with ModelMapper library
     private Post mapToEntity(PostDto postDto) {
         return mapper.map(postDto, Post.class);
     }
+
 }

@@ -1,5 +1,6 @@
 package com.uncodigo.blogspringapi.entity;
 
+import com.uncodigo.blogspringapi.utils.GenSlug;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -20,6 +21,8 @@ public class Post {
     private Long id;
     @Column(name = "title", nullable = false)
     private String title;
+    @Column(name = "slug", nullable = false, unique = true)
+    private String slug;
     @Column(name = "description", nullable = false)
     private String description;
     @Column(name = "content", nullable = false, columnDefinition = "text")
@@ -34,9 +37,9 @@ public class Post {
     @Column(name = "updated_at")
     private Date updateAt;
 
-
     @PrePersist
     private void prePersist() {
+        this.slug = GenSlug.toSlug(this.title);
         this.createAt = new Date();
     }
 
