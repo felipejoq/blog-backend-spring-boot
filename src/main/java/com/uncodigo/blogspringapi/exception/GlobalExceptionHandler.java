@@ -66,9 +66,9 @@ public class GlobalExceptionHandler {
                 webRequest.getDescription(false));
 
         List<String> errors = new ArrayList<>();
-        exception.getBindingResult().getAllErrors().forEach((error) -> {
-            errors.add(StringUtils.capitalize(((FieldError) error).getField()) + ": " + error.getDefaultMessage());
-        });
+        exception.getBindingResult().getAllErrors().forEach(
+                (error) -> errors.add(StringUtils.capitalize(((FieldError) error).getField()) + ": " + error.getDefaultMessage())
+        );
 
         errorDetails.setErrors(errors);
 
