@@ -1,6 +1,8 @@
 package com.uncodigo.blogspringapi.payload;
 
+import com.uncodigo.blogspringapi.entity.User;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
@@ -20,6 +22,7 @@ public class PostDto {
 
     @NotEmpty(message = "Post content should not empty")
     private String content;
+
     private Set<CommentDto> comments;
     private Date createAt;
     private Date updateAt;

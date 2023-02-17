@@ -1,9 +1,9 @@
 package com.uncodigo.blogspringapi.exception;
 
 import com.uncodigo.blogspringapi.payload.ErrorDetails;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -25,7 +25,6 @@ public class GlobalExceptionHandler {
                 webRequest.getDescription(false));
 
         errorDetails.setErrors(Collections.singletonList(exception.getMessage()));
-
 
         return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
     }
@@ -73,5 +72,18 @@ public class GlobalExceptionHandler {
         errorDetails.setErrors(errors);
 
         return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    public ResponseEntity<ErrorDetails> handlerAccessDeniedException(AccessDeniedException exception,
+                                                                         WebRequest webRequest) {
+        ErrorDetails errorDetails = new ErrorDetails(
+                new Date(),
+                exception.getMessage(),
+                webRequest.getDescription(false));
+
+        errorDetails.setErrors(Collections.singletonList(exception.getMessage()));
+
+        return new ResponseEntity<>(errorDetails, HttpStatus.UNAUTHORIZED);
     }
 }

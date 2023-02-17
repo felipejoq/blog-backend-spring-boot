@@ -1,3 +1,15 @@
+
+# Create users and roles for testing
+INSERT INTO users (name, user_name, email, password, enable) VALUES ('Administrator', 'admin', 'admin@test.test', '$2a$10$DKSFZzCjuVl65G2AEYjcyekG/Afs454PAkhuKxJBzFq0Th1/OR9Ay', true);
+INSERT INTO users (name, user_name, email, password, enable) VALUES ('Felipe', 'felipe', 'felipe@test.test', '$2a$10$kXRmWVZmMcctslxidd89m.tsKJ4VE6U4.eAAS14Mpcetk3h7gKcIi', true);
+
+INSERT INTO roles (name) VALUES ('ROLE_ADMIN');
+INSERT INTO roles (name) VALUES ('ROLE_USER');
+
+INSERT INTO users_roles (user_id, role_id) VALUES (1, 1);
+INSERT INTO users_roles (user_id, role_id) VALUES (1, 2);
+INSERT INTO users_roles (user_id, role_id) VALUES (2, 2);
+
 ## Test Data for posts
 INSERT INTO posts (title, description, content, slug, create_at) VALUES ('My first post', 'My first description for post', 'My first content for my blog post, this content is a large text, because is content.', 'my-first-post', NOW());
 INSERT INTO posts (title, description, content, slug, create_at) VALUES ('My second post', 'My second description for post', 'My second content for my blog post, this content is a large text, because is content.', 'my-second-post', NOW());

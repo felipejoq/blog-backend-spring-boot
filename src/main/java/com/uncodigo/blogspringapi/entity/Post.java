@@ -1,8 +1,13 @@
 package com.uncodigo.blogspringapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.uncodigo.blogspringapi.utils.GenSlug;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.checkerframework.checker.units.qual.C;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
@@ -27,11 +32,15 @@ public class Post {
     private String description;
     @Column(name = "content", nullable = false, columnDefinition = "text")
     private String content;
+
+
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Comment> comments = new HashSet<>();
+
     @Column(name = "create_at", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private Date createAt;
+
     @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "updated_at")
@@ -39,6 +48,7 @@ public class Post {
 
     @PrePersist
     private void prePersist() {
+        this.slug = GenSlug.toSlug(this.title);
         this.createAt = new Date();
     }
 
