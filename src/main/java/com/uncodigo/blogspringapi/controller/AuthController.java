@@ -1,5 +1,6 @@
 package com.uncodigo.blogspringapi.controller;
 
+import com.uncodigo.blogspringapi.payload.JWTAuthResponse;
 import com.uncodigo.blogspringapi.payload.LoginDto;
 import com.uncodigo.blogspringapi.payload.RegisterDto;
 import com.uncodigo.blogspringapi.service.AuthService;
@@ -21,9 +22,13 @@ public class AuthController {
 
     // Build login REST API
     @PostMapping(value = {"/login", "/signin"})
-    public ResponseEntity<String> login (@RequestBody LoginDto loginDto) {
-        String response = authService.login(loginDto);
-        return ResponseEntity.ok(response);
+    public ResponseEntity<JWTAuthResponse> login (@RequestBody LoginDto loginDto) {
+        String token = authService.login(loginDto);
+
+        JWTAuthResponse jwtAuthResponse = new JWTAuthResponse();
+        jwtAuthResponse.setAccessToken(token);
+
+        return ResponseEntity.ok(jwtAuthResponse);
     }
 
     // Build register REST API
