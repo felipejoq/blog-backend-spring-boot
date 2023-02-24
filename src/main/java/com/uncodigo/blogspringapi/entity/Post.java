@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.checkerframework.checker.units.qual.C;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.Date;
@@ -33,29 +34,36 @@ public class Post {
     @Column(name = "content", nullable = false, columnDefinition = "text")
     private String content;
 
-
     @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<Comment> comments = new HashSet<>();
 
-    @Column(name = "create_at", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private Category category;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    @CreationTimestamp
+    @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date createAt;
+    private Date createdAt;
 
     @UpdateTimestamp
     @Temporal(TemporalType.TIMESTAMP)
     @Column(name = "updated_at")
-    private Date updateAt;
+    private Date updatedAt;
 
     @PrePersist
-    private void prePersist() {
+    private void prePersist(){
+        this.createdAt = new Date();
         this.slug = GenSlug.toSlug(this.title);
-        this.createAt = new Date();
     }
 
     @PreUpdate
     private void preUpdate() {
         this.slug = GenSlug.toSlug(this.title);
     }
-
 
 }

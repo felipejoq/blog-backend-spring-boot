@@ -1,5 +1,6 @@
 package com.uncodigo.blogspringapi.payload;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Size;
@@ -21,7 +22,9 @@ public class CommentDto {
     @Size(min = 10, message = "Comment body must be minimum 10 characters")
     private String body;
 
+    @JsonProperty(value = "created_at")
     private Date createAt;
 
+    @JsonProperty(value = "updated_at")
     private Date updateAt;
 }

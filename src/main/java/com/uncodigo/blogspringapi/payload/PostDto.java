@@ -1,5 +1,7 @@
 package com.uncodigo.blogspringapi.payload;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.uncodigo.blogspringapi.entity.Category;
 import com.uncodigo.blogspringapi.entity.User;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -19,11 +21,13 @@ public class PostDto {
     @NotEmpty(message = "Post description should not empty")
     @Size(min = 25, message = "Post description should have at least 25 characters")
     private String description;
-
     @NotEmpty(message = "Post content should not empty")
     private String content;
-
     private Set<CommentDto> comments;
-    private Date createAt;
-    private Date updateAt;
+    private Category category;
+    private User user;
+    @JsonProperty(value = "created_at")
+    private Date createdAt;
+    @JsonProperty(value = "updated_at")
+    private Date updatedAt;
 }
