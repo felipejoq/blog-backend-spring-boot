@@ -1,17 +1,20 @@
 package com.uncodigo.blogspringapi.payload;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.uncodigo.blogspringapi.entity.Category;
 import com.uncodigo.blogspringapi.entity.User;
 import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.*;
 
 import java.util.Date;
 import java.util.Set;
 
-@Data
+@Setter
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
 public class PostDto {
     private Long id;
     @NotEmpty(message = "Post title should not empty")
@@ -26,6 +29,11 @@ public class PostDto {
     private Set<CommentDto> comments;
     private Long categoryId;
     private Long userId;
+
+    // private Category category;
+
+    /// private User user;
+
     @JsonProperty(value = "created_at")
     private Date createdAt;
     @JsonProperty(value = "updated_at")
