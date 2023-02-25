@@ -24,8 +24,8 @@ public class PostDto {
     @NotEmpty(message = "Post content should not empty")
     private String content;
     private Set<CommentDto> comments;
-    private Category category;
-    private User user;
+    private Long categoryId;
+    private Long userId;
     @JsonProperty(value = "created_at")
     private Date createdAt;
     @JsonProperty(value = "updated_at")
