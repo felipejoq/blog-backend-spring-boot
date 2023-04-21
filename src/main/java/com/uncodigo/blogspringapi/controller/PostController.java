@@ -4,6 +4,7 @@ import com.uncodigo.blogspringapi.payload.PostDto;
 import com.uncodigo.blogspringapi.payload.PostResponse;
 import com.uncodigo.blogspringapi.service.PostService;
 import com.uncodigo.blogspringapi.utils.AppConstants;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Tag(name = "Post", description = "Post or Articles blogs management APIs")
 @RestController
 @RequestMapping("/api/posts")
 public class PostController {

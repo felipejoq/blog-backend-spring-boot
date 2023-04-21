@@ -2,6 +2,7 @@ package com.uncodigo.blogspringapi.controller;
 
 import com.uncodigo.blogspringapi.payload.CategoryDto;
 import com.uncodigo.blogspringapi.service.CategoryService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Tag(name = "Category", description = "Categories blog management APIs")
 @RestController
 @RequestMapping("/api/categories")
 public class CategoryController {

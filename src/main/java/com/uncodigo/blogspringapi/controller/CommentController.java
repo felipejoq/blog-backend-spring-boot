@@ -2,6 +2,7 @@ package com.uncodigo.blogspringapi.controller;
 
 import com.uncodigo.blogspringapi.payload.CommentDto;
 import com.uncodigo.blogspringapi.service.CommentService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Tag(name = "Comment", description = "Comments by Post management APIs")
 @RestController
 @RequestMapping("/api")
 public class CommentController {
