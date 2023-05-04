@@ -57,7 +57,7 @@ public class CategoryController {
     }
 
     // Build Delete Category REST API
-    @Operation(summary = "Delete a Category", description = "Delete a Category by ID")
+    @Operation(summary = "Delete a Category by ID", description = "Delete a Category by ID")
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<CategoryDto> deleteCategory(@PathVariable(name = "id") Long categoryId) {
