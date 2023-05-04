@@ -2,6 +2,9 @@ package com.uncodigo.blogspringapi.config;
 
 import com.uncodigo.blogspringapi.security.JwtAuthenticationEntryPoint;
 import com.uncodigo.blogspringapi.security.JwtAuthenticationFilter;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeIn;
+import io.swagger.v3.oas.annotations.enums.SecuritySchemeType;
+import io.swagger.v3.oas.annotations.security.SecurityScheme;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;

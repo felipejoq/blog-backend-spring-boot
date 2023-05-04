@@ -2,6 +2,8 @@ package com.uncodigo.blogspringapi.controller;
 
 import com.uncodigo.blogspringapi.payload.CategoryDto;
 import com.uncodigo.blogspringapi.service.CategoryService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +24,7 @@ public class CategoryController {
     }
 
     // Build add category REST API
+    @Operation(summary = "Create a Category", description = "Create Category")
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public ResponseEntity<CategoryDto> addCategory(@RequestBody CategoryDto categoryDto) {
@@ -30,6 +33,7 @@ public class CategoryController {
     }
 
     // Build Get Category REST API
+    @Operation(summary = "Get a Category by ID", description = "Get one Category by ID")
     @GetMapping("/{id}")
     public ResponseEntity<CategoryDto> getCategory(@PathVariable(name = "id") Long categoryId) {
         CategoryDto categoryDto = categoryService.getCategory(categoryId);
@@ -37,12 +41,14 @@ public class CategoryController {
     }
 
     // Build Get All Categories REST API
+    @Operation(summary = "Get all Categories", description = "Get all categories registry")
     @GetMapping
     public ResponseEntity<List<CategoryDto>> getCategories() {
         return ResponseEntity.ok(categoryService.getAllCategories());
     }
 
     // Build Update Category REST API
+    @Operation(summary = "Edit a Category", description = "Edit one category by ID")
     @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<CategoryDto> updateCategory(@RequestBody CategoryDto categoryDto,
@@ -51,6 +57,7 @@ public class CategoryController {
     }
 
     // Build Delete Category REST API
+    @Operation(summary = "Delete a Category", description = "Delete a Category by ID")
     @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<CategoryDto> deleteCategory(@PathVariable(name = "id") Long categoryId) {
